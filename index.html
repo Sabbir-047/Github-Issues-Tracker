@@ -19,8 +19,26 @@
 
 <body>
 
-    <header>
-        
+    <header class="bg-white  shadow">
+        <nav class="flex flex-col lg:flex-row justify-between items-center max-w-11/12 mx-auto py-4">
+            <div class="flex justify-between items-center gap-2 pb-4">
+                <img class="w-9 h-9" src="assets/github-logo.png" alt="github-logo">
+                <h2 class="color-primary font-semibold text-2xl">Github Issues Tracker</h2>
+            </div>
+            <div class="flex justify-between items-center gap-4">
+                <label class="input">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none"
+                            stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                        </g>
+                    </svg>
+                    <input type="search" required placeholder="Search Issues" />
+                </label>
+                <button class="btn btn-primary text-white text-lg font-semibold">+ New Issue</button>
+            </div>
+        </nav>
     </header>
 
     <main>
