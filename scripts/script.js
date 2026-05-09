@@ -3,6 +3,7 @@ const btnContainer = document.getElementById("btnContainer");
 const allBtn = document.getElementById("allBtn");
 const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
+let issueTracker = document.getElementById("issueTracker");
 let allIssuesData = [];
 
 // 1 -> Load all issues
@@ -65,22 +66,42 @@ function displayIssues(issues) {
     });
 }
 
-// all buttons
+// 3-> all buttons
 allBtn.addEventListener("click", () => {
     displayIssues(allIssuesData);
+    activeBtn(allBtn);
+    issueTrack(allIssuesData);
 })
 
-// open button
+// 4-> open button
 openBtn.addEventListener("click", () => {
     const openIssues = allIssuesData.filter((issue) => issue.status == "open");
     displayIssues(openIssues);
+    activeBtn(openBtn);
+    issueTrack(openIssues);
 })
 
-// closed button
+// 5-> closed button
 closedBtn.addEventListener("click", () => {
     const closedIssues = allIssuesData.filter((issue) => issue.status == "closed");
     displayIssues(closedIssues);
+    activeBtn(closedBtn);
+    issueTrack(closedIssues);
 })
+
+// 6-> Filter button
+function activeBtn(clickedBtn){
+    allBtn.classList.add("btn-outline");
+    openBtn.classList.add("btn-outline");
+    closedBtn.classList.add("btn-outline");
+    clickedBtn.classList.remove("btn-outline");
+}
+
+// 7 -> Issue tracker
+function issueTrack (given){
+    let length = given.length;
+    issueTracker.textContent = `${length} Issues`;
+}
 
 
 
