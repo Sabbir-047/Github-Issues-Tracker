@@ -7,7 +7,7 @@ document.getElementById('btn-signin').addEventListener('click', function(){
         usernameField.value = "";
         passwordField.value = "";
         alert("Successfully Signed In");
-        window.location.href = "index.html";
+        window.location.href = "home.html";
     }else{
         alert("Give proper credentials");
     }
