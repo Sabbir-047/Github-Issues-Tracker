@@ -5,6 +5,14 @@ const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
 let issueTracker = document.getElementById("issueTracker");
 const spinner = document.getElementById("spinner");
+const issueTitle = document.getElementById("issueTitle");
+const issueBadge = document.getElementById("issueBadge");
+const issueAuthor = document.getElementById("issueAuthor");
+const issuedDate = document.getElementById("issuedDate");
+const issueDescription = document.getElementById("issueDescription");
+const issueAssigne = document.getElementById("issueAssigne");
+const issuePriority = document.getElementById("issuePriority");
+const issueDetails = document.getElementById("my_modal_5");
 let allIssuesData = [];
 
 // 1 -> Load all issues
@@ -29,7 +37,7 @@ function displayIssues(issues) {
         const card = document.createElement("div");
         card.className = `border-t-3 rounded-lg ${issue.status === "open" ? "border-t-green-500" : "border-t-violet-500"}`;
         card.innerHTML = `
-            <div class="h-full card p-4 bg-[#EFEFEF] space-y-4">
+            <div onclick ="openIssueModal(${issue.id})" class="h-full card p-4 bg-[#EFEFEF] space-y-4">
                     <div class="flex justify-between items-center">
                         <img src="assets/${issue.status === "open" ? "Open_Status.png" : "Closed_Status.png"}" alt="${issue.status === "open" ? "open" : "Closed"}">
                         <div class="badge ${
@@ -129,6 +137,37 @@ searchField.addEventListener("input", (event) => {
     displayIssues(searchedIssue);
     issueTrack(searchedIssue);
 });
+
+// 10 -> Open Modal
+async function openIssueModal(issueId) {
+    // console.log(issueId);
+    const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`;
+    const res = await fetch(url);
+    const datas = await res.json();
+    const issueInfo = datas.data;
+    issueTitle.textContent = issueInfo.title;
+    issueBadge.textContent = issueInfo.status;
+    issueAuthor.textContent = `Opened by ${issueInfo.author}`;
+    issuedDate.textContent = issueInfo.createdAt;
+    issueDescription.textContent = issueInfo.description;
+    issueAssigne.textContent = issueInfo.assignee;
+    issuePriority.textContent = issueInfo.priority;
+    const labelContainer = document.getElementById("labelContainer");
+    labelContainer.classList.add("space-x-4")
+    labelContainer.innerHTML = `
+    ${
+        issueInfo.labels?.length > 0
+            ? issueInfo.labels
+                  .map(
+                      (label) =>
+                          `<div class="badge badge-outline badge-secondary text-[12px] ">${label}</div>`,
+                  )
+                  .join("")
+            : ""
+    }
+    `;
+    issueDetails.showModal();
+}
 
 loadIssues();
 // loadCategories();
