@@ -4,16 +4,19 @@ const allBtn = document.getElementById("allBtn");
 const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
 let issueTracker = document.getElementById("issueTracker");
+const spinner = document.getElementById("spinner");
 let allIssuesData = [];
 
 // 1 -> Load all issues
 async function loadIssues() {
+    showSpinner();
     const url = `https://phi-lab-server.vercel.app/api/v1/lab/issues`;
     const res = await fetch(url);
     const datas = await res.json();
     // console.log(datas);
     // console.log(datas.data);
     allIssuesData = datas.data;
+    hideSpinner();
     displayIssues(allIssuesData);
 }
 
@@ -71,7 +74,7 @@ allBtn.addEventListener("click", () => {
     displayIssues(allIssuesData);
     activeBtn(allBtn);
     issueTrack(allIssuesData);
-})
+});
 
 // 4-> open button
 openBtn.addEventListener("click", () => {
@@ -79,18 +82,20 @@ openBtn.addEventListener("click", () => {
     displayIssues(openIssues);
     activeBtn(openBtn);
     issueTrack(openIssues);
-})
+});
 
 // 5-> closed button
 closedBtn.addEventListener("click", () => {
-    const closedIssues = allIssuesData.filter((issue) => issue.status == "closed");
+    const closedIssues = allIssuesData.filter(
+        (issue) => issue.status == "closed",
+    );
     displayIssues(closedIssues);
     activeBtn(closedBtn);
     issueTrack(closedIssues);
-})
+});
 
 // 6-> Filter button
-function activeBtn(clickedBtn){
+function activeBtn(clickedBtn) {
     allBtn.classList.add("btn-outline");
     openBtn.classList.add("btn-outline");
     closedBtn.classList.add("btn-outline");
@@ -98,12 +103,32 @@ function activeBtn(clickedBtn){
 }
 
 // 7 -> Issue tracker
-function issueTrack (given){
+function issueTrack(given) {
     let length = given.length;
     issueTracker.textContent = `${length} Issues`;
 }
 
+// 8 -> spinner show and hide
+function hideSpinner() {
+    spinner.classList.add("hidden");
+}
+function showSpinner() {
+    spinner.classList.remove("hidden");
+    cardContainer.innerHTML = "";
+}
 
+// 9 -> Search implementation
+const searchField = document.getElementById("searchField");
+
+searchField.addEventListener("input", (event) => {
+    const search = event.target.value.toLowerCase();
+    const searchedIssue = allIssuesData.filter((issue) => {
+        const title = issue.title.toLowerCase();
+        return title.includes(search);
+    });
+    displayIssues(searchedIssue);
+    issueTrack(searchedIssue);
+});
 
 loadIssues();
 // loadCategories();
